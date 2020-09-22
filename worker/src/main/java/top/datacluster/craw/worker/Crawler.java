@@ -34,7 +34,7 @@ public class Crawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
-        return !FILTERS.matcher(href).matches() && url.getURL().contains("follower");
+        return !FILTERS.matcher(href).matches() && url.getURL().endsWith("profile");
     }
 
     /**

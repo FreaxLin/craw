@@ -1,5 +1,7 @@
 package top.datacluster.craw.worker;
 
+import java.util.Date;
+
 public class HupuUser {
 
     private String id = "";
@@ -103,7 +105,7 @@ public class HupuUser {
     }
 
     public Object[] getSqlObject(){
-        return new Object[]{name, id, sex, level, mass, cash, onlive_time, register_time, last_lgoin_time, city};
+        return new Object[]{name, id, sex, level, mass, cash, onlive_time, register_time, last_lgoin_time, city, new Date()};
     }
 
     @Override

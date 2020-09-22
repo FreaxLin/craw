@@ -47,10 +47,12 @@ public class CrawApplication {
         try {
             CrawlController controller = new CrawlController(crawlConfig, pageFetcher, robotstxtServer);
             JdbcTemplate jdbcTemplate = new JdbcTemplate(hikariDataSource);
-            List<Map<String, Object>> result = jdbcTemplate.queryForList("SELECT hupu_id FROM craw_data.hupu_bxj_user;");
+            List<Map<String, Object>> result = jdbcTemplate.queryForList("SELECT distinct f.follower_new_id FROM hupu_follower f \n" +
+                    "left join hupu_bxj_user u on f.follower_new_id = u.hupu_id \n" +
+                    "where u.hupu_bxj_user is null limit 70000,50000");
 
             for (Map<String, Object> url : result){
-                controller.addSeed("https://my.hupu.com" + url.get("hupu_id").toString() + "/follower");
+                controller.addSeed("https://my.hupu.com/" + url.get("follower_new_id").toString() + "/profile");
             }
 //            controller.addSeed("https://my.hupu.com/96258335640997/follower");
 
@@ -65,7 +67,7 @@ public class CrawApplication {
     }
 
     public void start(){
-        int numberOfCrawlers = this.applicationConfig.getNumberOfCrawlers(1);
+        int numberOfCrawlers = this.applicationConfig.getNumberOfCrawlers(3);
         this.controller.start(new MysqlStoreServiceFactory(this.dataSource), numberOfCrawlers);
     }
 
