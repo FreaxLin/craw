@@ -1,5 +1,4 @@
 
-
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
@@ -30,14 +29,14 @@ spring:
     encoding: utf-8
     # 禁用缓存
     cache: false
-  # 资源信息
+#  # 资源信息
   messages:
     # 国际化资源文件路径
     basename: static/i18n/messages
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-  profiles: 
+  profiles:
     active: druid
   # 文件上传
   servlet:
@@ -51,34 +50,48 @@ spring:
     restart:
       # 热部署开关
       enabled: true
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/ry?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: cicd
+    password: Home123*
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: MyHikariCP
+      ## 最小空闲连接数量
+      minimumIdle: 10
+      ## 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 600000
+      ## 连接池最大连接数，默认是10
+      maximum-pool-size: 10
+      ## 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      ## 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      ## 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 30000
 # MyBatis
 mybatis:
-
     # 配置mapper的扫描，找到所有的mapper.xml映射文件
-    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    mapperLocations: classpath*:mybatis/mapper/**/*Mapper.xml
     # 加载全局的配置文件
-    configLocation: classpath:mybatis/mybatis-config.xml
+    configLocation: classpath:mybatis/config/mybatis-config.xml
 
-# PageHelper分页插件
-pagehelper: 
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql 
+## PageHelper分页插件
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql
+#
+#
+#
+## 防止XSS攻击
+#xss:
+#  # 过滤开关
+#  enabled: true
+#  # 排除链接（多个用逗号分隔）
+#  excludes: /system/notice/*
+#  # 匹配链接
+#  urlPatterns: /system/*,/monitor/*,/tool/*
 
-
-
-# 防止XSS攻击
-xss: 
-  # 过滤开关
-  enabled: true
-  # 排除链接（多个用逗号分隔）
-  excludes: /system/notice/*
-  # 匹配链接
-  urlPatterns: /system/*,/monitor/*,/tool/*
-
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
