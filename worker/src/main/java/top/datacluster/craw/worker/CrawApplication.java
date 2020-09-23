@@ -49,7 +49,7 @@ public class CrawApplication {
             JdbcTemplate jdbcTemplate = new JdbcTemplate(hikariDataSource);
             List<Map<String, Object>> result = jdbcTemplate.queryForList("SELECT distinct f.follower_new_id FROM hupu_follower f \n" +
                     "left join hupu_bxj_user u on f.follower_new_id = u.hupu_id \n" +
-                    "where u.hupu_bxj_user is null limit 60000,80000");
+                    "where u.hupu_bxj_user is null limit 40000,80000");
 
             for (Map<String, Object> url : result){
                 controller.addSeed("https://my.hupu.com/" + url.get("follower_new_id").toString() + "/profile");
